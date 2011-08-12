@@ -138,8 +138,8 @@ if os.sys.platform == "linux2":
     env.Append( SHLINKFLAGS = "-shared -Wl,-soname,libmongoc.so." + VERSION )
     bsonEnv.Append( SHLINKFLAGS = "-shared -Wl,-soname,libbson.so." + VERSION )
 
-dynm = env.SharedLibrary( "mongoc" , mSharedObjs )
-dynb = bsonEnv.SharedLibrary( "bson" , bSharedObjs )
+dynm = env.SharedLibrary( "mongoc" , mSharedObjs, LINKFLAGS='-fPIC' )
+dynb = bsonEnv.SharedLibrary( "bson" , bSharedObjs, LINKFLAGS='-fPIC' )
 
 env.Default( env.Alias( "sharedlib" , [ dynm[0] , dynb[0] ] ) )
 
