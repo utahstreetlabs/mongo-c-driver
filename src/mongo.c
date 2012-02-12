@@ -343,7 +343,8 @@ int mongo_replset_connect( mongo *conn ) {
     while( node != NULL ) {
         res = mongo_socket_connect( conn, ( const char * )&node->host, node->port );
         if( res != MONGO_OK )
-            return MONGO_ERROR;
+            /* keep looking for the host list, even if a seed is not responding */
+            continue;
 
         mongo_replset_check_seed( conn );
 
