@@ -342,6 +342,8 @@ int mongo_replset_connect( mongo *conn ) {
     node = conn->replset->seeds;
     while( node != NULL ) {
         res = mongo_socket_connect( conn, ( const char * )&node->host, node->port );
+        node = node->next;
+
         if( res != MONGO_OK )
             /* keep looking for the host list, even if a seed is not responding */
             continue;
@@ -350,8 +352,6 @@ int mongo_replset_connect( mongo *conn ) {
 
         if( conn->replset->hosts )
             break;
-
-        node = node->next;
     }
 
     /* Iterate over the host list, checking for the primary node. */
